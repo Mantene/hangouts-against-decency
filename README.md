@@ -1,9 +1,10 @@
-Hangouts Against Humanity
+Hangouts Against Decency
 =========================
 
-"Cards Against Humanity"-like game for Google Plus Hangouts
+"Cards Against Humanity"-like game for Google Plus Hangouts 
+Lovingly forked from https://github.com/samurailink3/hangouts-against-humanity
 
-The eventual goal of this project is to create a javascript framework for this type of card game. The engine will be completely expandable by using a simple JSON file of new cards.
+Interface Changes include using a different CSS file, removing the video window, trying to better deal with new players and players who have left, change main panel title to show who the Card Czar is at any moment, add an actual reset button to the interface. More changes to follow.
 
 Thanks to Cards Against Humanity for this great CC-BY-NC-SA 2.0 game!
 
