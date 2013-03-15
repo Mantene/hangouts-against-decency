@@ -1,7 +1,6 @@
 function initLayout() {
-
     Ext.application({
-        name:'Hangouts Against Humanity',
+        name:'Hangouts Against ...',
         launch:function () {
             //main app layout
             Ext.create('Ext.container.Viewport', {
@@ -70,6 +69,7 @@ function initLayout() {
                                     value:0,
                                     readOnly: true
                                 },
+
                             ]
                         },
                         {
@@ -98,9 +98,10 @@ function initLayout() {
                             ],
                             viewConfig: {markDirty:false, forceFit: true}
                         }
+
                     ]
                 },{
-                    title: 'Hangouts Against Humanity',
+                    title: 'Hangout Against Decency',
                     id: 'sharedArea',
                     region: 'center',     // center region is required, no width/height specified
                     xtype: 'panel',
@@ -113,6 +114,16 @@ function initLayout() {
                          handler:function () {
                          //chat settings here
                          }},*/
+
+                        {
+                           xtype:'button',
+                           width:'60',
+                           id:'resetGameButton',
+                           text:'Reset Game',
+                           handler:function() {
+                               sendEvent('resetGame')
+                               }
+                        },
                         {
                             type:'help',
                             handler:function () {
@@ -182,4 +193,6 @@ function initLayout() {
             });
         }
     });
+ console.log('We have liftoff!');
+
 }

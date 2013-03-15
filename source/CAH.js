@@ -21,10 +21,10 @@ function warningPrompt() {
         collapsible: false,
         resizable: false,
         shadow: false,
-        html: 'Hangouts Against Humanity is a Google+ Hangout app designed for playing <a href="http://www.cardsagainsthumanity.com/index2.html" target="_blank">Cards Against Humanity</a>. Please be aware this game is intended for mature audiences. <br><br> Hangouts Against Humanity is available on Github where you can view the source, wiki, and submit issues <a href="https://github.com/samurailink3/hangouts-against-humanity" target="_blank">here</a> ',
+      html: 'By playing this game you are admitting to the entire world that your heart is <strong>four</strong> sizes too small. You are worse than a Grinch. You are a Terrible, Horrible, No Good, Very Bad Person.<br><br><strong>Recent Changes:</strong><br>New Color Scheme<br>Reset Button<br>No Gloat Cam',
         buttons: [
             {
-                text: 'I am a Horrible Person',
+                text: 'I Kill Puppies For Fun!',
                 handler: function () {
                     this.up('window').close();
 
@@ -50,39 +50,42 @@ function warningPrompt() {
                     readerVideoWindow = Ext.create('Ext.window.Window', {
                         title:'Video',
                         id:'readerVideoWindow',
-                        width:300,
-                        height:200,
-                        autoShow: true,
-                        closable: false,
-                        collapsible: true,
-                        minWidth: 250,
-                        resizable: {preserveRatio: 'true'},
-                        shadow: false,
-                        listeners : {
+                        //width:19,
+                        //height:1,
+                        //autoShow: true,
+                        //closable: true,
+                        //closeAction: 'hide',
+                        //collapsible: true,
+                        //collapseMode: "header",
+                        //collapsed: true,
+                        //minWidth: 19,
+                        //resizable: {preserveRatio: 'true'},
+                        //shadow: false,
+                        /*listeners : {
                             'collapse': function (){
                                 videoCanvas.setVisible(false);
                             },
                             'expand': function (){
-                                videoCanvas.setVisible(true);
+                                videoCanvas.setVisible(false);
                             },
                             'move' : function(win,x,y,opt){
                                 videoCanvas.setPosition(x+7,y+28);
                                 if (!win.getCollapsed()) {
-                                    videoCanvas.setVisible(true);
+                                    videoCanvas.setVisible(false);
                                 }
                             },
                             'resize': function(self, width, height) {
                                 videoCanvas.setWidth(width-19);
                                 if (!self.getCollapsed()) {
-                                    videoCanvas.setVisible(true);
+                                    videoCanvas.setVisible(false);
                                 }
                             }
-                        }
+                        }*/
                     });
                     $('#readerVideoWindow').mousedown(function () {videoCanvas.setVisible(false);});
                     resetVideoWindow();
 
-                    var soundURL = 'https://85117101e0f26bedf67e-15ab98c82e424146710a86f06b19b7ce.ssl.cf1.rackcdn.com/img/Winner.wav';
+                    var soundURL = 'https://mhood.mycpanel.princeton.edu/HAH/img/Winner.wav';
                     winnerSound = gapi.hangout.av.effects.createAudioResource(soundURL).createSound({loop: false, localOnly: true});
 
                     //check if game starter and if so sync to game state
@@ -97,7 +100,7 @@ function warningPrompt() {
                 }
             },
             {
-                text: 'Cancel',
+                text: 'I am a Good Person!',
                 handler: function () {
                     $('body').html('<img src="http://images1.fanpop.com/images/photos/1800000/Care-Bears-Wallpaper-80s-toybox-1886586-1024-768.jpg">');
                 }
@@ -137,6 +140,7 @@ function syncNewPlayer() {
         }
     }
 
+   dealAnswers(10);
     //correct the turn
     Ext.getCmp('turnCounter').setValue(parseInt(gapi.hangout.data.getValue('turn')));
 }
@@ -191,16 +195,17 @@ function uniqid()
 }
 
 function resetVideoWindow() {
-    readerVideoWindow.alignTo(Ext.getBody(), "tr-tr", [-10, 100]);
-    readerVideoWindow.setWidth(300);
-    readerVideoWindow.setHeight(200);
-    videoCanvas.setWidth(readerVideoWindow.getWidth()-19);
-    videoCanvas.setVideoFeed(defaultFeed);
-    var pos = readerVideoWindow.getPosition();
-    videoCanvas.setPosition(pos[0]+7, pos[1]+28);
-    videoCanvas.setVisible(true);
+    //readerVideoWindow.alignTo(Ext.getBody(), "tr-tr", [-10, 100]);
+    //readerVideoWindow.setWidth(300);
+    //readerVideoWindow.setHeight(200);
+    //videoCanvas.setWidth(readerVideoWindow.getWidth()-19);
+    //videoCanvas.setVideoFeed(defaultFeed);
+    //var pos = readerVideoWindow.getPosition();
+    //videoCanvas.setPosition(pos[0]+7, pos[1]+28);
+    //videoCanvas.setVisible(false);
 
 }
+
 
 function createTextOverlay(string) {
     // Create a canvas to draw on
@@ -228,4 +233,3 @@ function createTextOverlay(string) {
 
     return canvas.toDataURL();
 }
-

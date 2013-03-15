@@ -38,13 +38,12 @@ function startGame() {
                     columnWidth:  240,
                     vertical: false,
                     items: [
-                        { boxLabel: 'Base', name: 'sets', inputValue: 'Base', checked: true, readOnly:true },
+                        { boxLabel: 'Base', name: 'sets', inputValue: 'Base', checked: true },
                         { boxLabel: 'First Expansion', name: 'sets', checked: true, inputValue: 'CAHe1'},
                         { boxLabel: 'Second Expansion', name: 'sets', checked: true, inputValue: 'CAHe2' },
-                        { boxLabel: 'Christmas Set', name: 'sets', checked: false, inputValue: 'CAHxmas' },
-                        { boxLabel: 'Grognards (fan RPG set)', name: 'sets', checked: false, inputValue: 'CAHgrognards' },
-                        { boxLabel: 'Weeaboo (fan Anime set)', name: 'sets', checked: false, inputValue: 'CAHweeaboo' },
-                        { boxLabel: 'NEIndy (fan expansion set)', name: 'sets', checked: false, inputValue: 'NEIndy' }
+                        { boxLabel: 'Christmas Set', name: 'sets', checked: true, inputValue: 'CAHxmas' }
+                        //{ boxLabel: 'Grognards (fan RPG set)', name: 'sets', checked: false, inputValue: 'CAHgrognards' },
+                        //{ boxLabel: 'Weeaboo (fan Anime set)', name: 'sets', checked: false, inputValue: 'CAHweeaboo' }
 
                     ]
                 },
@@ -92,7 +91,7 @@ function startGame() {
 
 function startedGame(eventData){
     //notification
-    gapi.hangout.layout.displayNotice(eventData.gameStarter + " started the game!");
+    gapi.hangout.layout.displayNotice(eventData.gameStarter + ", The Supreme Asshole, has started the game!");
 
     //clear points
     clearPoints();
@@ -132,6 +131,8 @@ function startedGame(eventData){
 //
 ///////////////////////////////////////////////////////
 function doReaderTurn() {
+      //try and catch new/left players
+    updateParticipantsList();
     numPlayers = playerStore.count();
 
     if (reader.id == user.id) {
@@ -201,10 +202,12 @@ function chooseRandomReader() {
 function setReader(eventData) {
     reader = eventData.reader;
     readerIndex = eventData.readerIndex;
-    gapi.hangout.layout.displayNotice(reader.name + " is the Card Czar for this turn!");
-    var readerFeed = gapi.hangout.layout.createParticipantVideoFeed(reader.participantID);
+    Ext.getCmp('sharedArea').setTitle('Card Czar: ' + reader.name);
+    console.log("Set Title Event Done!");
+    gapi.hangout.layout.displayNotice(reader.name + " is the Card Czar this turn!");
+    /*var readerFeed = gapi.hangout.layout.createParticipantVideoFeed(reader.participantID);
     videoCanvas.setVideoFeed(readerFeed);
-    readerVideoWindow.setTitle('Card Czar: ' + reader.name);
+    readerVideoWindow.setTitle('Card Czar: ' + reader.name);*/
     //reset card selection variables
     firstCardSelected = false;
     secondCardSelected = false;
@@ -214,6 +217,15 @@ function setReader(eventData) {
         doReaderTurn();
     }
 }
+
+function setTitleReader(eventData) {
+    reader = eventData.reader;
+    readerIndex = eventData.readerIndex;
+    sharedArea.setTitle('Card Czar: ' + reader.name);
+    console.log("Set Title Function Done!");
+}
+  
+  
 
 function disableReaderHand() {
     Ext.getCmp('handArea').collapse();
@@ -586,17 +598,17 @@ function winnerPicked(eventData) {
     if (points>= winningPoints) {
         gapi.hangout.layout.displayNotice(eventData.playerName + " has won the game!");
         //switch feed to winner
-        var winnerFeed = gapi.hangout.layout.createParticipantVideoFeed(playerRecord.get('participantID'));
+        /*var winnerFeed = gapi.hangout.layout.createParticipantVideoFeed(playerRecord.get('participantID'));
         videoCanvas.setVideoFeed(winnerFeed);
-        readerVideoWindow.setTitle('Game Winner: ' + eventData.playerName);
+        readerVideoWindow.setTitle('Game Winner: ' + eventData.playerName);*/
 
         //play sound
         winnerSound.play();
 
         //center window and make it bigger
-        readerVideoWindow.center(); readerVideoWindow.setSize(500,300);
+        /*readerVideoWindow.center(); readerVideoWindow.setSize(500,300);*/
         if (user.id == eventData.playerID) {
-            var pancakes = gapi.hangout.av.effects.createImageResource('https://85117101e0f26bedf67e-15ab98c82e424146710a86f06b19b7ce.ssl.cf1.rackcdn.com/img/winner_pancake.png');
+            var pancakes = gapi.hangout.av.effects.createImageResource('https://mhood.mycpanel.princeton.edu/HAH/img/img/winner_pancake.png');
             overlay = pancakes.showFaceTrackingOverlay({
                 'trackingFeature': gapi.hangout.av.effects.FaceTrackingFeature.NOSE_ROOT,
                 'scaleWithFace': true,
@@ -610,10 +622,10 @@ function winnerPicked(eventData) {
     } //continue round
     else {
         gapi.hangout.layout.displayNotice(eventData.playerName + " has won the point.");
-        var winnerFeed = gapi.hangout.layout.createParticipantVideoFeed(playerRecord.get('participantID'));
+        /*var winnerFeed = gapi.hangout.layout.createParticipantVideoFeed(playerRecord.get('participantID'));
         videoCanvas.setVideoFeed(winnerFeed);
         readerVideoWindow.setTitle('Gloat cam: ' + eventData.playerName);
-
+*/
         //let round winner gloat for 5 seconds
         setTimeout(function(){
             //cleanup
@@ -663,12 +675,26 @@ function resetGame() {
 
     $('.myCardWrap').remove();
     removeCardsFromHand();
+    $('.reader').remove();
 
     gameStarted = false;
-
+    numPlayers = 0;
+    numLoops = 0;
+    reader = new Object();
+    readerIndex = 0;
+    numSubmissions = 0;
+    numRevealedSubmissions = 0;
+    winningPoints = 0;
+    firstCardSelected = false;
+    secondCardSelected = false;
+    thirdCardSelected = false;
+    overlay = false;
+    masterCardsPicked = new Array();
+    sLoop = 0;
     clearPoints();
     Ext.getCmp('turnCounter').setValue(0);
 
     //try and catch new/left players
     updateParticipantsList();
+   console.log('Game Reset!');
 }
